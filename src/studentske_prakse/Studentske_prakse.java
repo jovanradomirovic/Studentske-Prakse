@@ -10,7 +10,6 @@ package studentske_prakse;
  */
 public class Studentske_prakse {
 
-    
     public static void main(String[] args) {
         // TODO code application logic here
     }
