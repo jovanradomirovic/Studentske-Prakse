@@ -1,6 +1,6 @@
 /*
-SQLyog Community v13.1.9 (64 bit)
-MySQL - 10.4.27-MariaDB : Database - studentske_prakse
+SQLyog Community v13.2.1 (64 bit)
+MySQL - 10.4.28-MariaDB : Database - studentske_prakse
 *********************************************************************
 */
 
@@ -54,10 +54,36 @@ DROP TABLE IF EXISTS `modul`;
 CREATE TABLE `modul` (
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `naziv` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`ID`)
+  `smerID` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `smerID` (`smerID`),
+  CONSTRAINT `smerID` FOREIGN KEY (`smerID`) REFERENCES `smer` (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 /*Data for the table `modul` */
+
+/*Table structure for table `praksa` */
+
+DROP TABLE IF EXISTS `praksa`;
+
+CREATE TABLE `praksa` (
+  `praksaID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `pozicija` varchar(255) NOT NULL,
+  `datumPocetka` date DEFAULT NULL,
+  `datumZavrsetka` date DEFAULT NULL,
+  `kompanijaID` int(10) unsigned NOT NULL,
+  `godinaID` int(10) unsigned NOT NULL,
+  `mestoID` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`praksaID`),
+  KEY `kompanija_fk` (`kompanijaID`),
+  KEY `godina_fk` (`godinaID`),
+  KEY `mesto_fk` (`mestoID`),
+  CONSTRAINT `godina_fk` FOREIGN KEY (`godinaID`) REFERENCES `skolska_godina` (`godina`),
+  CONSTRAINT `kompanija_fk` FOREIGN KEY (`kompanijaID`) REFERENCES `kompanija` (`ID`),
+  CONSTRAINT `mesto_fk` FOREIGN KEY (`mestoID`) REFERENCES `mesto` (`PID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+/*Data for the table `praksa` */
 
 /*Table structure for table `skolska_godina` */
 
@@ -77,13 +103,32 @@ DROP TABLE IF EXISTS `smer`;
 CREATE TABLE `smer` (
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `naziv` varchar(50) DEFAULT NULL,
-  `modulID` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `modulID` (`modulID`),
-  CONSTRAINT `modulID` FOREIGN KEY (`modulID`) REFERENCES `modul` (`ID`)
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 /*Data for the table `smer` */
+
+/*Table structure for table `student` */
+
+DROP TABLE IF EXISTS `student`;
+
+CREATE TABLE `student` (
+  `studentID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ime` varchar(50) NOT NULL,
+  `prezime` varchar(50) NOT NULL,
+  `adresa` varchar(100) NOT NULL,
+  `telefon` char(15) NOT NULL,
+  `indeks` char(9) NOT NULL,
+  `smerID` int(10) unsigned NOT NULL,
+  `modulID` int(10) unsigned DEFAULT NULL,
+  PRIMARY KEY (`studentID`),
+  KEY `smer_fk` (`smerID`),
+  KEY `modul_fk` (`modulID`),
+  CONSTRAINT `modul_fk` FOREIGN KEY (`modulID`) REFERENCES `modul` (`ID`),
+  CONSTRAINT `smer_fk` FOREIGN KEY (`smerID`) REFERENCES `smer` (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+/*Data for the table `student` */
 
 /*Table structure for table `ugovor` */
 
