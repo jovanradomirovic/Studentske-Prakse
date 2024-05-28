@@ -6,15 +6,17 @@ package studentske_prakse.domain;
 
 /**
  *
- * @author petar
+ * @author radom
  */
-public class Smer {
+public class Modul {
     private int ID;
     private String naziv;
+    private int smerID;
 
-    public Smer(int ID, String naziv) {
+    public Modul(int ID, String naziv, int smerID) {
         this.ID = ID;
         this.naziv = naziv;
+        this.smerID = smerID;
     }
 
     public int getID() {
@@ -31,6 +33,14 @@ public class Smer {
 
     public void setNaziv(String naziv) {
         this.naziv = naziv;
+    }
+
+    public int getSmerID() {
+        return smerID;
+    }
+
+    public void setSmerID(int smerID) {
+        this.smerID = smerID;
     }
     
     
