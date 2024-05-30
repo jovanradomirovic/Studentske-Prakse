@@ -2,19 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package studentske_prakse.domain;
+package studentPractices.domain;
 
 /**
  *
  * @author petar
  */
-public class Smer {
+public class Major {
     private int ID;
-    private String naziv;
+    private String name;
 
-    public Smer(int ID, String naziv) {
+    public Major(int ID, String name) {
         this.ID = ID;
-        this.naziv = naziv;
+        this.name = name;
     }
 
     public int getID() {
@@ -25,13 +25,14 @@ public class Smer {
         this.ID = ID;
     }
 
-    public String getNaziv() {
-        return naziv;
+    public String getName() {
+        return name;
     }
 
-    public void setNaziv(String naziv) {
-        this.naziv = naziv;
+    public void setName(String name) {
+        this.name = name;
     }
-    
+
+  
     
 }
