@@ -1,6 +1,6 @@
 /*
 SQLyog Community v13.2.1 (64 bit)
-MySQL - 10.4.25-MariaDB : Database - studentske_prakse
+MySQL - 10.4.28-MariaDB : Database - studentske_prakse
 *********************************************************************
 */
 
@@ -12,7 +12,7 @@ MySQL - 10.4.25-MariaDB : Database - studentske_prakse
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`studentske_prakse` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`studentske_prakse` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci */;
 
 USE `studentske_prakse`;
 
@@ -30,7 +30,7 @@ CREATE TABLE `kompanija` (
   PRIMARY KEY (`ID`),
   KEY `mestoID` (`mestoID`),
   CONSTRAINT `mestoID` FOREIGN KEY (`mestoID`) REFERENCES `mesto` (`PID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 /*Data for the table `kompanija` */
 
@@ -48,7 +48,7 @@ CREATE TABLE `mesto` (
   `PID` int(10) unsigned NOT NULL,
   `naziv` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`PID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 /*Data for the table `mesto` */
 
@@ -71,7 +71,7 @@ CREATE TABLE `modul` (
   PRIMARY KEY (`ID`),
   KEY `smerID` (`smerID`),
   CONSTRAINT `smerID` FOREIGN KEY (`smerID`) REFERENCES `smer` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 /*Data for the table `modul` */
 
@@ -101,8 +101,8 @@ CREATE TABLE `praksa` (
   `kompanijaID` int(10) unsigned NOT NULL,
   `godinaID` int(10) unsigned NOT NULL,
   `mestoID` int(10) unsigned NOT NULL,
-  `studentID` int(10) unsigned NOT NULL,
-  `ugovorID` int(10) unsigned NOT NULL,
+  `studentID` int(10) unsigned DEFAULT NULL,
+  `ugovorID` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`praksaID`),
   KEY `kompanija_fk` (`kompanijaID`),
   KEY `godina_fk` (`godinaID`),
@@ -114,9 +114,16 @@ CREATE TABLE `praksa` (
   CONSTRAINT `mesto_fk` FOREIGN KEY (`mestoID`) REFERENCES `mesto` (`PID`),
   CONSTRAINT `student_fk` FOREIGN KEY (`studentID`) REFERENCES `student` (`studentID`),
   CONSTRAINT `ugovor_fk` FOREIGN KEY (`ugovorID`) REFERENCES `ugovor` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 /*Data for the table `praksa` */
+
+insert  into `praksa`(`praksaID`,`pozicija`,`datumPocetka`,`datumZavrsetka`,`kompanijaID`,`godinaID`,`mestoID`,`studentID`,`ugovorID`) values 
+(21,'Software Developer','2024-06-01','2024-12-01',1,2023,11000,NULL,NULL),
+(22,'Data Analyst','2024-07-01','2024-12-31',2,2023,11000,NULL,NULL),
+(23,'Project Manager','2024-08-01','2025-01-31',3,2023,34000,NULL,NULL),
+(24,'System Administrator','2024-09-01','2025-02-28',4,2023,11000,NULL,NULL),
+(25,'UI/UX Designer','2024-10-01','2025-03-31',4,2023,18000,NULL,NULL);
 
 /*Table structure for table `skolska_godina` */
 
@@ -125,7 +132,7 @@ DROP TABLE IF EXISTS `skolska_godina`;
 CREATE TABLE `skolska_godina` (
   `godina` int(10) unsigned NOT NULL,
   PRIMARY KEY (`godina`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 /*Data for the table `skolska_godina` */
 
@@ -144,7 +151,7 @@ CREATE TABLE `smer` (
   `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `naziv` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 /*Data for the table `smer` */
 
@@ -170,7 +177,7 @@ CREATE TABLE `student` (
   KEY `modul_fk` (`modulID`),
   CONSTRAINT `modul_fk` FOREIGN KEY (`modulID`) REFERENCES `modul` (`ID`),
   CONSTRAINT `smer_fk` FOREIGN KEY (`smerID`) REFERENCES `smer` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 /*Data for the table `student` */
 
@@ -193,7 +200,7 @@ CREATE TABLE `ugovor` (
   PRIMARY KEY (`ID`),
   KEY `k_fk` (`kompanijaID`),
   CONSTRAINT `k_fk` FOREIGN KEY (`kompanijaID`) REFERENCES `kompanija` (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 /*Data for the table `ugovor` */
 
