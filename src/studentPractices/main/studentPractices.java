@@ -3,12 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package studentPractices.main;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import studentPractices.repository.MajorRepository;
+import studentPractices.repository.PracticesRepository;
 /**
  *
  * @author student2
@@ -16,7 +12,7 @@ import studentPractices.repository.MajorRepository;
 public class StudentPractices {
 
     public static void main(String[] args) {
-        MajorRepository test = new MajorRepository();
-        System.out.println(test.getAll().get(0).getName());
+        PracticesRepository test = new PracticesRepository();
+        System.out.println(test.getAll().get(0).getEndDate());
     }
 }
