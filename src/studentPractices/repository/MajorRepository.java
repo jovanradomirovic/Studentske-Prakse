@@ -8,33 +8,22 @@ import java.util.List;
 import studentPractices.domain.Major;
 import java.sql.*;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 /**
  *
  * @author radom
  */
 public class MajorRepository {
     
-    String url = "jdbc:mysql://localhost:3306/studentske_prakse";
-    String user = "root";
-    String password = "";
-    private Connection connection;
-    public MajorRepository() {
-        try {
-            connection = DriverManager.getConnection(url, user, password);
-            System.out.println("Uspesno uspostavljena veza");
-        } catch (SQLException ex) {
-            Logger.getLogger(MajorRepository.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    DatabaseConnection databaseConnection = new DatabaseConnection();
+    
      
     public List<Major> getAll(){
         List<Major> smerovi = new LinkedList<>();
         String query = "SELECT * FROM smer";
         
         try {
-            Statement statement = connection.createStatement();
+            databaseConnection.createConnection();
+            Statement statement = databaseConnection.connection.createStatement();
             ResultSet rs = statement.executeQuery(query);
             
             while (rs.next()) {

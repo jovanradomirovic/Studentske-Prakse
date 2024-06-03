@@ -4,7 +4,7 @@
  */
 package studentPractices.domain;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 /**
  *
@@ -12,12 +12,12 @@ import java.time.LocalDateTime;
  */
 public class Contract {
     private int ID;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private boolean isActive;
     private int companyID;
 
-    public Contract(int ID, LocalDateTime startDate, LocalDateTime endDate, boolean isActive, int companyID) {
+    public Contract(int ID, LocalDate startDate, LocalDate endDate, boolean isActive, int companyID) {
         this.ID = ID;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -33,19 +33,19 @@ public class Contract {
         this.ID = ID;
     }
 
-    public LocalDateTime getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
 
