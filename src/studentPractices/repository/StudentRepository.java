@@ -9,19 +9,18 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
-import studentPractices.domain.Practices;
+import studentPractices.domain.Student;
 
 /**
  *
- * @author radom
+ * @author petar
  */
-public class PracticesRepository {
+public class StudentRepository {
     DatabaseConnection databaseConnection = new DatabaseConnection();
     
-     
-    public List<Practices> getAll(){
-        List<Practices> practices = new LinkedList<>();
-        String query = "select * from praksa";
+      public List<Student> getAll(){
+        List<Student> students = new LinkedList<>();
+        String query = "select * from student";
         
         
         try {
@@ -30,17 +29,16 @@ public class PracticesRepository {
             ResultSet rs = statement.executeQuery(query);
             
             while (rs.next()) {
-                    int practiseID = rs.getInt("praksaID");
-                    String position = rs.getString("pozicija");
-                    Date startDate = rs.getDate("datumPocetka");
-                    Date endDate = rs.getDate("datumZavrsetka");
-                    int companyID = rs.getInt("kompanijaID");
-                    int yearID = rs.getInt("godinaID");
-                    int cityID = rs.getInt("mestoID");
                     int studentID = rs.getInt("studentID");
-                    int contractID = rs.getInt("ugovorID");
-                    Practices practice = new Practices(practiseID, position, startDate.toLocalDate(), endDate.toLocalDate(), companyID, yearID, cityID, studentID, contractID);
-                    practices.add(practice);
+                    String name = rs.getString("ime");
+                    String surname = rs.getString("prezime");
+                    String address = rs.getString("adresa");
+                    String number = rs.getString("telefon");
+                    String index = rs.getString("indeks");
+                    int majorID = rs.getInt("smerID");
+                    int moduleID = rs.getInt("modulID");
+                    Student student = new Student(studentID,  name,  surname,  address,  number,  index,  majorID,  moduleID);
+                    students.add(student);
                 }
             rs.close();
             statement.close();
@@ -49,6 +47,6 @@ public class PracticesRepository {
             System.out.println(ex.getMessage());
         }
         
-        return practices;
+        return students;
     }
 }

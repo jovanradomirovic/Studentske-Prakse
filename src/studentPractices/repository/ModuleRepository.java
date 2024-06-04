@@ -3,23 +3,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package studentPractices.repository;
-
-import java.util.List;
-import studentPractices.domain.Major;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.List;
+import studentPractices.domain.Module;
 /**
  *
- * @author radom
+ * @author petar
  */
-public class MajorRepository {
-    
+public class ModuleRepository {
     DatabaseConnection databaseConnection = new DatabaseConnection();
     
-     
-    public List<Major> getAll(){
-        List<Major> smerovi = new LinkedList<>();
-        String query = "SELECT * FROM smer";
+      public List<Module> getAll(){
+        List<Module> modules = new LinkedList<>();
+        String query = "select * from modul";
+        
         
         try {
             databaseConnection.createConnection();
@@ -28,9 +27,10 @@ public class MajorRepository {
             
             while (rs.next()) {
                     int ID = rs.getInt("ID");
-                    String ime = rs.getString("naziv");
-                    Major smer = new Major(ID, ime);
-                    smerovi.add(smer);
+                    String name = rs.getString("naziv");
+                    int majorID = rs.getInt("smerID");
+                    Module module = new Module( ID,  name,  majorID);
+                    modules.add(module);
                 }
             rs.close();
             statement.close();
@@ -39,6 +39,6 @@ public class MajorRepository {
             System.out.println(ex.getMessage());
         }
         
-        return smerovi;
+        return modules;
     }
 }

@@ -4,22 +4,23 @@
  */
 package studentPractices.repository;
 
-import java.util.List;
-import studentPractices.domain.Major;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.List;
+import studentPractices.domain.City;
+
 /**
  *
- * @author radom
+ * @author petar
  */
-public class MajorRepository {
-    
+public class CityRepository {
     DatabaseConnection databaseConnection = new DatabaseConnection();
     
-     
-    public List<Major> getAll(){
-        List<Major> smerovi = new LinkedList<>();
-        String query = "SELECT * FROM smer";
+      public List<City> getAll(){
+        List<City> cities = new LinkedList<>();
+        String query = "select * from mesto";
+        
         
         try {
             databaseConnection.createConnection();
@@ -27,10 +28,10 @@ public class MajorRepository {
             ResultSet rs = statement.executeQuery(query);
             
             while (rs.next()) {
-                    int ID = rs.getInt("ID");
-                    String ime = rs.getString("naziv");
-                    Major smer = new Major(ID, ime);
-                    smerovi.add(smer);
+                    int postalCode = rs.getInt("PID");
+                    String name = rs.getString("naziv");
+                    City city = new City(postalCode, name);
+                    cities.add(city);
                 }
             rs.close();
             statement.close();
@@ -39,6 +40,6 @@ public class MajorRepository {
             System.out.println(ex.getMessage());
         }
         
-        return smerovi;
+        return cities;
     }
 }
