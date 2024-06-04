@@ -4,18 +4,27 @@
  */
 package studentPractices.form;
 
+import java.sql.*;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import studentPractices.domain.Practices;
+import studentPractices.repository.DatabaseConnection;
+import studentPractices.repository.PracticesRepository;
+
 /**
  *
  * @author radom
  */
-public class PrakseUI extends javax.swing.JDialog {
+public class PracticeUI extends javax.swing.JDialog {
 
     /**
      * Creates new form PrakseUI
      */
-    public PrakseUI(java.awt.Frame parent, boolean modal) {
+    public PracticeUI(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        fillTablePractices();
     }
 
     /**
@@ -28,22 +37,19 @@ public class PrakseUI extends javax.swing.JDialog {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblPractices = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblPractices.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
-                "pozicija", "datum pocetka", "datum zavrsetka", "kompanija", "lokacija", "skolska godina"
+                "pozicija", "datum pocetka", "datum zavrsetka", "kompanija", "skolska godina", "lokacija"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblPractices);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -58,8 +64,8 @@ public class PrakseUI extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(101, Short.MAX_VALUE))
         );
 
         pack();
@@ -82,20 +88,21 @@ public class PrakseUI extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PrakseUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PracticeUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PrakseUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PracticeUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PrakseUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PracticeUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PrakseUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PracticeUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                PrakseUI dialog = new PrakseUI(new javax.swing.JFrame(), true);
+                PracticeUI dialog = new PracticeUI(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -109,6 +116,48 @@ public class PrakseUI extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblPractices;
     // End of variables declaration//GEN-END:variables
+
+    private void fillTablePractices() {
+        DatabaseConnection databaseConnection = new DatabaseConnection();
+        try {
+            //popuni tabelu tblCity sa podacima iz baze (tabele city)
+            //uzmi listu gradova
+            List<Practices> practices = new PracticesRepository().getAll();
+            databaseConnection.createConnection();
+
+            TableModel tm = tblPractices.getModel();
+            //DefaultTableModel dtm = (DefaultTableModel) tm; //nece baciti gresku
+            if (tm instanceof DefaultTableModel) {
+                DefaultTableModel dtm = (DefaultTableModel) tm;
+                
+                String query = "SELECT k.naziv, g.godina, m.naziv grad FROM praksa p LEFT JOIN kompanija k ON(p.kompanijaID = k.ID) LEFT JOIN skolska_godina g ON(p.godinaID = g.godina) LEFT JOIN mesto m ON(p.mestoID = m.PID)";
+                Statement statement = databaseConnection.connection.prepareStatement(query);
+                ResultSet rs = statement.executeQuery(query);
+                for (Practices practice : practices) {
+                    
+                    Object[] rowData = new Object[6];
+                    rowData[0] = practice.getPosition();
+                    rowData[1] = practice.getStartDate();
+                    rowData[2] = practice.getEndDate();
+                    
+                    rs.next();
+                    rowData[3] = rs.getString("naziv");
+                    rowData[4] = rs.getString("godina");
+                    rowData[5] = rs.getString("grad");
+                    
+                    dtm.addRow(rowData);
+                }
+                rs.close();
+                statement.close();
+            }
+            
+            databaseConnection.connection.close();
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            
+        }
+    }
 }

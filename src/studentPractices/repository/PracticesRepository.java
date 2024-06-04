@@ -6,7 +6,6 @@ package studentPractices.repository;
 
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 import studentPractices.domain.Practices;
@@ -21,7 +20,7 @@ public class PracticesRepository {
      
     public List<Practices> getAll(){
         List<Practices> practices = new LinkedList<>();
-        String query = "select pozicija, datumPocetka, datumZavrsetka, kompanijaID, godinaID, mestoID from praksa";
+        String query = "select * from praksa";
         
         
         try {
@@ -39,6 +38,9 @@ public class PracticesRepository {
                     Practices practice = new Practices(position, startDate.toLocalDate(), endDate.toLocalDate(), companyID, yearID, cityID);
                     practices.add(practice);
                 }
+            rs.close();
+            statement.close();
+            databaseConnection.connection.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }

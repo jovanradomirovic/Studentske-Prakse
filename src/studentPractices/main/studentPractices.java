@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package studentPractices.main;
-import studentPractices.repository.MajorRepository;
+import studentPractices.form.PracticeUI;
 import studentPractices.repository.PracticesRepository;
 /**
  *
@@ -12,7 +12,9 @@ import studentPractices.repository.PracticesRepository;
 public class StudentPractices {
 
     public static void main(String[] args) {
-        PracticesRepository test = new PracticesRepository();
-        System.out.println(test.getAll().get(0).getEndDate());
+//        PracticesRepository test = new PracticesRepository();
+//        System.out.println(test.getAll().get(0).getEndDate());
+        PracticeUI forma = new PracticeUI(null, true);
+        forma.setVisible(true);
     }
 }

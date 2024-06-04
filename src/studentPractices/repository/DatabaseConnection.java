@@ -28,7 +28,7 @@ public class DatabaseConnection {
             connection = DriverManager.getConnection(url, user, password);
             System.out.println("Uspesno uspostavljena veza");
         } catch (SQLException ex) {
-            System.out.println("Greska prilikom konekcije");
+            System.out.println("Greska prilikom uspostavljanja konekcije");
         }
         
     }

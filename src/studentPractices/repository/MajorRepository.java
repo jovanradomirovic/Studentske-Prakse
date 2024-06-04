@@ -31,7 +31,11 @@ public class MajorRepository {
                     String ime = rs.getString("naziv");
                     Major smer = new Major(ID, ime);
                     smerovi.add(smer);
-                }
+            }
+            
+            rs.close();
+            statement.close();
+            databaseConnection.connection.close();
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
