@@ -21,14 +21,19 @@ public class Practices {
     private int studentID;
     private int contractID;
 
-    public Practices(String position, LocalDate startDate, LocalDate endDate, int companyID, int yearID, int cityID) {
+    public Practices(int practiceID, String position, LocalDate startDate, LocalDate endDate, int companyID, int yearID, int cityID, int studentID, int contractID) {
+        this.practiceID = practiceID;
         this.position = position;
         this.startDate = startDate;
         this.endDate = endDate;
         this.companyID = companyID;
         this.yearID = yearID;
         this.cityID = cityID;
+        this.studentID = studentID;
+        this.contractID = contractID;
     }
+
+    
 
     public Practices() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

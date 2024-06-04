@@ -4,24 +4,22 @@
  */
 package studentPractices.repository;
 
-
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
-import studentPractices.domain.Practices;
+import studentPractices.domain.Contract;
 
 /**
  *
- * @author radom
+ * @author petar
  */
-public class PracticesRepository {
+public class ContractRepository {
     DatabaseConnection databaseConnection = new DatabaseConnection();
     
-     
-    public List<Practices> getAll(){
-        List<Practices> practices = new LinkedList<>();
-        String query = "select * from praksa";
+      public List<Contract> getAll(){
+        List<Contract> contracts = new LinkedList<>();
+        String query = "select * from ugovor";
         
         
         try {
@@ -30,17 +28,13 @@ public class PracticesRepository {
             ResultSet rs = statement.executeQuery(query);
             
             while (rs.next()) {
-                    int practiseID = rs.getInt("praksaID");
-                    String position = rs.getString("pozicija");
+                    int ID = rs.getInt("ID");
                     Date startDate = rs.getDate("datumPocetka");
                     Date endDate = rs.getDate("datumZavrsetka");
+                    boolean isActive = rs.getBoolean("jeAktivan");
                     int companyID = rs.getInt("kompanijaID");
-                    int yearID = rs.getInt("godinaID");
-                    int cityID = rs.getInt("mestoID");
-                    int studentID = rs.getInt("studentID");
-                    int contractID = rs.getInt("ugovorID");
-                    Practices practice = new Practices(practiseID, position, startDate.toLocalDate(), endDate.toLocalDate(), companyID, yearID, cityID, studentID, contractID);
-                    practices.add(practice);
+                    Contract contract = new Contract(ID,startDate.toLocalDate(),endDate.toLocalDate(),isActive,companyID);
+                    contracts.add(contract);
                 }
             rs.close();
             statement.close();
@@ -49,6 +43,6 @@ public class PracticesRepository {
             System.out.println(ex.getMessage());
         }
         
-        return practices;
+        return contracts;
     }
 }

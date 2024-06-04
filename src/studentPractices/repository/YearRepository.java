@@ -4,22 +4,22 @@
  */
 package studentPractices.repository;
 
-import java.util.List;
-import studentPractices.domain.Major;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.LinkedList;
+import java.util.List;
+import studentPractices.domain.Year;
 /**
  *
- * @author radom
+ * @author petar
  */
-public class MajorRepository {
-    
+public class YearRepository {
     DatabaseConnection databaseConnection = new DatabaseConnection();
     
-     
-    public List<Major> getAll(){
-        List<Major> smerovi = new LinkedList<>();
-        String query = "SELECT * FROM smer";
+      public List<Year> getAll(){
+        List<Year> years = new LinkedList<>();
+        String query = "select * from skolska_godina";
+        
         
         try {
             databaseConnection.createConnection();
@@ -27,10 +27,9 @@ public class MajorRepository {
             ResultSet rs = statement.executeQuery(query);
             
             while (rs.next()) {
-                    int ID = rs.getInt("ID");
-                    String ime = rs.getString("naziv");
-                    Major smer = new Major(ID, ime);
-                    smerovi.add(smer);
+                    int yearID = rs.getInt("godina");
+                    Year year = new Year(yearID);
+                    years.add(year);
                 }
             rs.close();
             statement.close();
@@ -39,6 +38,7 @@ public class MajorRepository {
             System.out.println(ex.getMessage());
         }
         
-        return smerovi;
+        return years;
     }
+    
 }
